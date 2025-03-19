@@ -60,5 +60,19 @@ then
 # if element name is provided
 elif [[ $arg =~ ^[A-Za-z]+$ ]]
 then
-    echo -e "\nYou entered the element name."
+    # get element info
+    ELEMENT_INFO_NAME=$($PSQL "SELECT * FROM elements WHERE name ILIKE '$arg'")
+    # if element is not found
+    if [[ -z $ELEMENT_INFO_NAME ]]
+    then
+        echo -e "Element not found."
+    else
+        # get the properties of the element
+        echo "$ELEMENT_INFO_NAME" | while IFS="|" read ATOMIC_NUMBER SYMBOL NAME
+        do
+            ELEMENT_PROPERTIES=$($PSQL "SELECT * FROM properties WHERE atomic_number=ATOMIC_NUMBER")
+            # prepare the output
+            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES TYPE ATOMIC_MASS MELTING_POINT_CELCIUS 
+        done
+    fi
 fi
