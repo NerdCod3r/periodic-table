@@ -16,7 +16,7 @@ then
     # if element is not found
     if [[ -z $ELEMENT ]]
     then
-        echo "Element is not found."
+        echo "I could not find that element in the database."
     else
         echo "$ELEMENT" | while IFS="|" read ATOMIC_NUMBER SYMBOL NAME
         do
