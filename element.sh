@@ -61,18 +61,25 @@ then
 elif [[ $arg =~ ^[A-Za-z]+$ ]]
 then
     # get element info
-    ELEMENT_INFO_NAME=$($PSQL "SELECT * FROM elements WHERE name ILIKE '$arg'")
+    ELEMENT_INFO_NAME=$($PSQL "SELECT * FROM elements WHERE name = '$arg'")
     # if element is not found
     if [[ -z $ELEMENT_INFO_NAME ]]
     then
-        echo -e "Element not found."
+        echo -e "I could not find that element in the database."
     else
         # get the properties of the element
         echo "$ELEMENT_INFO_NAME" | while IFS="|" read ATOMIC_NUMBER SYMBOL NAME
         do
-            ELEMENT_PROPERTIES=$($PSQL "SELECT * FROM properties WHERE atomic_number=ATOMIC_NUMBER")
+            ELEMENT_PROPERTIES=$($PSQL "SELECT * FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
             # prepare the output
-            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES TYPE ATOMIC_MASS MELTING_POINT_CELCIUS 
+            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
+            do
+                # get the type name
+                TYPE_NAME=$($PSQL "SELECT type FROM types WHERE type_id=$TYPE_ID")
+
+                # print the output
+                echo -e "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE_NAME, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
+            done
         done
     fi
 fi
