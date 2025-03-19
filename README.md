@@ -22,7 +22,7 @@ The **Periodic Table Database** is designed to:
    cd periodic-table
    ```
 
-2. **Create and Connect to Database**
+2. **Create and Connect to Database**  
    Recreate the database using the database dump file, periodic_table.sql:
    ```sql
    psql -U postgres < periodic_table.sql
