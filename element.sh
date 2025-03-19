@@ -61,7 +61,7 @@ then
 elif [[ $arg =~ ^[A-Za-z]+$ ]]
 then
     # get element info
-    ELEMENT_INFO_NAME=$($PSQL "SELECT * FROM elements WHERE name = '$arg'")
+    ELEMENT_INFO_NAME=$($PSQL "SELECT * FROM elements WHERE name ILIKE '$arg'")
     # if element is not found
     if [[ -z $ELEMENT_INFO_NAME ]]
     then
