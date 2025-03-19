@@ -23,12 +23,12 @@ then
            # get the properties info of the element. 
            ELEMENT_PROPERTIES=$($PSQL "SELECT * FROM properties WHERE atomic_number=$arg")
            # parse the information and print the statement to the user.
-           echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
+           echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
            do
                 # get the type_name of the metal from types table
                 TYPE_NAME=$($PSQL "SELECT type FROM types WHERE type_id=$TYPE_ID" )
                 # echo the output
-                echo -e "The element with atomic number $ATOMIC_NUMBER is $NAME. It's a $TYPE_NAME, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
+                echo -e "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE_NAME, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
            done
         done
     fi
@@ -48,7 +48,7 @@ then
         do
             ELEMENT_PROPERTIES=$($PSQL "SELECT * FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
 
-            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
+            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
             do
                 # get the type of the element
                 TYPE_NAME=$($PSQL "SELECT type FROM types WHERE type_id=$TYPE_ID")
@@ -72,7 +72,7 @@ then
         do
             ELEMENT_PROPERTIES=$($PSQL "SELECT * FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
             # prepare the output
-            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
+            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
             do
                 # get the type name
                 TYPE_NAME=$($PSQL "SELECT type FROM types WHERE type_id=$TYPE_ID")
