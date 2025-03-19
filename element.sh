@@ -36,7 +36,27 @@ then
 # if element symbol is provided (max of 2 characters)
 elif [[ $arg =~ ^[A-Z][a-z]{0,1}$ ]]
 then
-    echo -e "\nYou entered the symbol of the element."
+   # get the element information.
+   ELEMENT_SELECT_INFO=$($PSQL "SELECT * FROM elements WHERE symbol='$arg'")
+   # if element is not found
+   if [[ -z $ELEMENT_SELECT_INFO ]]
+   then
+        echo "I could not find that element in the database."
+    else
+        # get the element's properties.
+        echo "$ELEMENT_SELECT_INFO" | while IFS="|" read ATOMIC_NUMBER SYMBOL NAME
+        do
+            ELEMENT_PROPERTIES=$($PSQL "SELECT * FROM properties WHERE atomic_number=$ATOMIC_NUMBER")
+
+            echo "$ELEMENT_PROPERTIES" | while IFS="|" read ATOMIC_NUMBER_PROPERTIES TYPE ATOMIC_MASS MELTING_POINT_CELSIUS BOILING_POINT_CELSIUS TYPE_ID
+            do
+                # get the type of the element
+                TYPE_NAME=$($PSQL "SELECT type FROM types WHERE type_id=$TYPE_ID")
+
+                echo "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE_NAME, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
+            done
+        done
+    fi
 # if element name is provided
 elif [[ $arg =~ ^[A-Za-z]+$ ]]
 then
