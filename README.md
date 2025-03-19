@@ -23,12 +23,12 @@ The **Periodic Table Database** is designed to:
    ```
 
 2. **Create and Connect to Database**
-   ```sh
-   psql --username=freecodecamp --dbname=postgres
-   ```
-   Then, create the database using the database dump file, periodic_table.sql:
+   Recreate the database using the database dump file, periodic_table.sql:
    ```sql
    psql -U postgres < periodic_table.sql
+   ```
+   ```sh
+   psql --username=freecodecamp --dbname=periodic_table
    ```
 3. **Run the Bash Script**
    ```sh
