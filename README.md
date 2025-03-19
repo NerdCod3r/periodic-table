@@ -27,6 +27,7 @@ The **Periodic Table Database** is designed to:
    ```sql
    psql -U postgres < periodic_table.sql
    ```
+   Connect to the Database:
    ```sh
    psql --username=freecodecamp --dbname=periodic_table
    ```
